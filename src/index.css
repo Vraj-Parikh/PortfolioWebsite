@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --color-coral-500: #ff6b6b;
+  --color-coral-600: #ff5252;
+}
