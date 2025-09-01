@@ -60,7 +60,7 @@ const NavBar = () => {
       <div className="max-w-7xl mx-auto font-bold px-4 md:px-6">
         <div className="flex justify-between items-center py-4">
           <motion.div
-            className="text-2xl md:text-3xl font-bold font-inter"
+            className="text-2xl md:text-3xl font-bold font-inter z-50"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
@@ -99,34 +99,50 @@ const NavBar = () => {
             ))}
           </div>
           {/* Hamburger Button */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="md:hidden flex items-center space-x-2 z-50">
             <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} />
           </div>
           {isMenuOpen && (
             <div
-              className="absolute left-0 right-0 flex flex-col bg-white backdrop-blur-2xl shadow-2xl overflow-hidden h-screen items-stretch z-50 md:hidden"
-              style={{ top: `${navBarHeight}px` }}
+              className={`fixed inset-0 z-40 md:hidden ${
+                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
             >
-              {navItems.map((navItem, idx) => (
-                <motion.button
-                  key={navItem.name + navItem.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: (idx + 1) * 0.15 }}
-                >
-                  <Link
-                    to={navItem.href}
-                    smooth={true}
-                    duration={500}
-                    className="relative px-4 py-2 text-gray-700 font-bold cursor-pointer shadow-md inline-block w-full"
-                    onClick={() => setIsMenuOpen(false)}
+              {/* Backdrop */}
+              <div
+                className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                onClick={() => setIsMenuOpen(false)}
+              />
+              {/* Mobile Menu */}
+              <div
+                className={`absolute left-0 right-0 bottom-0 flex flex-col backdrop-blur-xl bg-white/95  shadow-2xl overflow-hidden items-stretch md:hidden ${
+                  isMenuOpen
+                    ? "opacity-100 scale-100 translate-x-0"
+                    : "opacity-0 scale-90 translate-x-12"
+                }`}
+                style={{ top: `${navBarHeight}px` }}
+              >
+                {navItems.map((navItem, idx) => (
+                  <motion.button
+                    key={navItem.name + navItem.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: (idx + 1) * 0.15 }}
                   >
-                    <motion.span className="inline-block relative transition-colors z-10">
-                      {navItem.name}
-                    </motion.span>
-                  </Link>
-                </motion.button>
-              ))}
+                    <Link
+                      to={navItem.href}
+                      smooth={true}
+                      duration={500}
+                      className="relative px-4 py-2 text-gray-700 font-bold cursor-pointer shadow-md inline-block w-full"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <motion.span className="inline-block relative transition-colors z-10">
+                        {navItem.name}
+                      </motion.span>
+                    </Link>
+                  </motion.button>
+                ))}
+              </div>
             </div>
           )}
         </div>
