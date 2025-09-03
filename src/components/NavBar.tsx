@@ -26,11 +26,14 @@ const navItems: NavItems[] = [
   },
 ];
 
-const NavBar = () => {
+interface NavBarProps {
+  navBarHeight: number;
+  setNavBarHeight: React.Dispatch<React.SetStateAction<number>>;
+}
+const NavBar = ({ navBarHeight, setNavBarHeight }: NavBarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navBarRef: React.Ref<HTMLElement> = useRef(null);
-  const [navBarHeight, setNavBarHeight] = useState(0);
 
   useEffect(() => {
     setNavBarHeight(navBarRef.current?.offsetHeight || 0);
@@ -39,7 +42,7 @@ const NavBar = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [setNavBarHeight]);
 
   return (
     <motion.nav
@@ -81,7 +84,7 @@ const NavBar = () => {
                   to={navItem.href}
                   smooth={true}
                   duration={500}
-                  className="relative px-4 py-2 text-gray-700 font-bold cursor-pointer group"
+                  className="relative px-4 py-2 text-gray-700 font-semibold cursor-pointer group"
                 >
                   <motion.span
                     className="inline-block relative transition-colors z-10 duration-200 group-hover:text-gray-900"
@@ -110,7 +113,7 @@ const NavBar = () => {
             >
               {/* Backdrop */}
               <div
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                className="absolute inset-0 bg-black/30 backdrop-blur-sm"
                 onClick={() => setIsMenuOpen(false)}
               />
               {/* Mobile Menu */}

@@ -1,7 +1,10 @@
 import React from "react";
 
-const Hero = () => {
-  return <div>Hero</div>;
+interface HeroProps {
+  navBarHeight: number;
+}
+const Hero = ({ navBarHeight }: HeroProps) => {
+  return <div className=""></div>;
 };
 
 export default Hero;
